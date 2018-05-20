@@ -1,0 +1,39 @@
+C:\Users\arthur\Documents\Visual Studio 2017\Projects\StudentsManager\StudentsManager\bin\Debug\netcoreapp2.0\StudentsManager.UI.deps.json
+C:\Users\arthur\Documents\Visual Studio 2017\Projects\StudentsManager\StudentsManager\bin\Debug\netcoreapp2.0\StudentsManager.UI.runtimeconfig.json
+C:\Users\arthur\Documents\Visual Studio 2017\Projects\StudentsManager\StudentsManager\bin\Debug\netcoreapp2.0\StudentsManager.UI.runtimeconfig.dev.json
+C:\Users\arthur\Documents\Visual Studio 2017\Projects\StudentsManager\StudentsManager\bin\Debug\netcoreapp2.0\StudentsManager.UI.dll
+C:\Users\arthur\Documents\Visual Studio 2017\Projects\StudentsManager\StudentsManager\bin\Debug\netcoreapp2.0\StudentsManager.UI.pdb
+C:\Users\arthur\Documents\Visual Studio 2017\Projects\StudentsManager\StudentsManager\bin\Debug\netcoreapp2.0\StudentManager.Domain.dll
+C:\Users\arthur\Documents\Visual Studio 2017\Projects\StudentsManager\StudentsManager\bin\Debug\netcoreapp2.0\StudentManager.Domain.pdb
+C:\Users\arthur\Documents\Visual Studio 2017\Projects\StudentsManager\StudentsManager\obj\Debug\netcoreapp2.0\StudentsManager.UI.csprojResolveAssemblyReference.cache
+C:\Users\arthur\Documents\Visual Studio 2017\Projects\StudentsManager\StudentsManager\obj\Debug\netcoreapp2.0\StudentsManager.UI.csproj.CoreCompileInputs.cache
+C:\Users\arthur\Documents\Visual Studio 2017\Projects\StudentsManager\StudentsManager\obj\Debug\netcoreapp2.0\StudentsManager.UI.AssemblyInfoInputs.cache
+C:\Users\arthur\Documents\Visual Studio 2017\Projects\StudentsManager\StudentsManager\obj\Debug\netcoreapp2.0\StudentsManager.UI.AssemblyInfo.cs
+C:\Users\arthur\Documents\Visual Studio 2017\Projects\StudentsManager\StudentsManager\obj\Debug\netcoreapp2.0\StudentsManager.UI.dll
+C:\Users\arthur\Documents\Visual Studio 2017\Projects\StudentsManager\StudentsManager\obj\Debug\netcoreapp2.0\StudentsManager.UI.pdb
+C:\Git\Samples\dotnet\core\2.0\StudentsManager\StudentsManager\bin\Debug\netcoreapp2.0\StudentsManager.UI.deps.json
+C:\Git\Samples\dotnet\core\2.0\StudentsManager\StudentsManager\bin\Debug\netcoreapp2.0\StudentsManager.UI.runtimeconfig.json
+C:\Git\Samples\dotnet\core\2.0\StudentsManager\StudentsManager\bin\Debug\netcoreapp2.0\StudentsManager.UI.runtimeconfig.dev.json
+C:\Git\Samples\dotnet\core\2.0\StudentsManager\StudentsManager\bin\Debug\netcoreapp2.0\StudentsManager.UI.dll
+C:\Git\Samples\dotnet\core\2.0\StudentsManager\StudentsManager\bin\Debug\netcoreapp2.0\StudentsManager.UI.pdb
+C:\Git\Samples\dotnet\core\2.0\StudentsManager\StudentsManager\bin\Debug\netcoreapp2.0\StudentManager.Domain.dll
+C:\Git\Samples\dotnet\core\2.0\StudentsManager\StudentsManager\bin\Debug\netcoreapp2.0\StudentManager.Domain.pdb
+C:\Git\Samples\dotnet\core\2.0\StudentsManager\StudentsManager\obj\Debug\netcoreapp2.0\StudentsManager.UI.csprojResolveAssemblyReference.cache
+C:\Git\Samples\dotnet\core\2.0\StudentsManager\StudentsManager\obj\Debug\netcoreapp2.0\StudentsManager.UI.csproj.CoreCompileInputs.cache
+C:\Git\Samples\dotnet\core\2.0\StudentsManager\StudentsManager\obj\Debug\netcoreapp2.0\StudentsManager.UI.AssemblyInfoInputs.cache
+C:\Git\Samples\dotnet\core\2.0\StudentsManager\StudentsManager\obj\Debug\netcoreapp2.0\StudentsManager.UI.AssemblyInfo.cs
+C:\Git\Samples\dotnet\core\2.0\StudentsManager\StudentsManager\obj\Debug\netcoreapp2.0\StudentsManager.UI.dll
+C:\Git\Samples\dotnet\core\2.0\StudentsManager\StudentsManager\obj\Debug\netcoreapp2.0\StudentsManager.UI.pdb
+C:\Git\StudentsManager-UI\bin\Debug\netcoreapp2.0\StudentsManager.UI.deps.json
+C:\Git\StudentsManager-UI\bin\Debug\netcoreapp2.0\StudentsManager.UI.runtimeconfig.json
+C:\Git\StudentsManager-UI\bin\Debug\netcoreapp2.0\StudentsManager.UI.runtimeconfig.dev.json
+C:\Git\StudentsManager-UI\bin\Debug\netcoreapp2.0\StudentsManager.UI.dll
+C:\Git\StudentsManager-UI\bin\Debug\netcoreapp2.0\StudentsManager.UI.pdb
+C:\Git\StudentsManager-UI\bin\Debug\netcoreapp2.0\StudentManager.Domain.dll
+C:\Git\StudentsManager-UI\bin\Debug\netcoreapp2.0\StudentManager.Domain.pdb
+C:\Git\StudentsManager-UI\obj\Debug\netcoreapp2.0\StudentsManager.UI.csprojResolveAssemblyReference.cache
+C:\Git\StudentsManager-UI\obj\Debug\netcoreapp2.0\StudentsManager.UI.csproj.CoreCompileInputs.cache
+C:\Git\StudentsManager-UI\obj\Debug\netcoreapp2.0\StudentsManager.UI.AssemblyInfoInputs.cache
+C:\Git\StudentsManager-UI\obj\Debug\netcoreapp2.0\StudentsManager.UI.AssemblyInfo.cs
+C:\Git\StudentsManager-UI\obj\Debug\netcoreapp2.0\StudentsManager.UI.dll
+C:\Git\StudentsManager-UI\obj\Debug\netcoreapp2.0\StudentsManager.UI.pdb

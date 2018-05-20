@@ -1,0 +1,43 @@
+﻿@model PaginatedList<StudentsManager.Domain.Models.Course>
+
+@{
+    ViewData["Title"] = "Courses";
+}
+
+<h2> @ViewData["Title"] </h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">
+        <span class="glyphicon glyphicon-plus"></span>
+    </a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.List)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="glyphicon glyphicon-pencil"></a> |
+                    <a asp-action="Details" asp-route-id="@item.Id" class="glyphicon glyphicon-list-alt" title="Detais"></a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="glyphicon glyphicon-trash"></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div>
+    @{
+        Html.RenderPartial("~/Views/_ViewPageNav.cshtml", Model);
+    }
+</div>

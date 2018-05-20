@@ -1,0 +1,83 @@
+﻿@model PaginatedList<StudentsManager.Domain.Models.Student>
+
+@{
+    ViewData["Title"] = "Students";
+}
+
+<h2> @ViewData["Title"] </h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">
+        <span class="glyphicon glyphicon-plus"></span>
+    </a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                First Name
+            </th>
+            <th>
+                Sur Name
+            </th>
+            <th>
+                Gender
+            </th>
+            <th>
+                Addresses
+            </th>
+            <th>
+                Course
+            </th>
+            <th>
+                DOB
+            </th>
+            <th> Operations </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.List)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Surname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gender)
+            </td>
+            <td>
+
+                <ul>
+                    @foreach (var address in item.Addresses)
+            {
+                <li> @address.Street, @address.PostalCode, @address.City, @address.State, @address.Country. </li>
+    }
+                </ul>
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Course.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DOB)
+            </td>
+
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id" class="glyphicon glyphicon-pencil"></a> |
+                <a asp-action="Details" asp-route-id="@item.Id" class="glyphicon glyphicon-list-alt" title="Detais"></a> |
+                <a asp-action="Delete" asp-route-id="@item.Id" class="glyphicon glyphicon-trash"></a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    @{
+        Html.RenderPartial("~/Views/_ViewPageNav.cshtml", Model);
+    }
+</div>

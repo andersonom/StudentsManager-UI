@@ -1,0 +1,55 @@
+﻿@{
+    List<Address> Model = ViewBag.ListAddress;    
+}
+
+<div class="form-group">
+    <label class="control-label">Addresses</label>
+    <button type="submit" class=" btn btn-primary btn-xs" asp-action="Create" asp-controller="Addresses">
+        <span class="glyphicon glyphicon-plus"></span>
+    </button>
+
+    @if (Model == null)
+    {
+        <p>- No Adresses yet.</p>
+    }
+
+    <ul>
+        @if (Model != null)
+        {
+
+            @foreach (var item in Model)
+            {
+                <li>
+                    <table>
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Street) 
+                            </td>
+                            <td>
+                                &nbsp
+                                @Html.DisplayFor(modelItem => item.City)
+                            </td>
+                            <td>
+                                &nbsp
+                                @Html.DisplayFor(modelItem => item.State)
+                            </td>
+                            <td>
+                                &nbsp
+                                @Html.DisplayFor(modelItem => item.Country)
+                            </td>
+                            <td>
+                                &nbsp
+                                @Html.DisplayFor(modelItem => item.PostalCode)
+                            </td>
+
+                            @*<td>
+                                    <a asp-controller="Addresses" asp-action="Edit" asp-route-id="@item.Id" class="glyphicon glyphicon-pencil"></a>
+                                </td>*@
+                        </tr>
+                    </table>
+                </li>
+            }
+        }
+    </ul>
+
+</div>
