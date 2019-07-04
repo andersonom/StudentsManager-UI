@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  studentsmanager.ui:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80"

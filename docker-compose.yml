@@ -1,0 +1,23 @@
+version: '3.4'
+
+services:
+  studentsmanager.ui:
+    image: ${DOCKER_REGISTRY-}studentsmanagerui
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - students-network
+    depends_on:
+      - "redis.students"
+
+  redis.students:
+    image: redis:alpine
+    ports:
+      - "16379:6379"
+    networks:
+      - students-network
+
+networks: 
+    students-network:
+      driver: bridge

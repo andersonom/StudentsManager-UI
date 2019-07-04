@@ -5,20 +5,47 @@ using Microsoft.EntityFrameworkCore;
 using StudentManager.Domain.Interfaces.Services;
 using StudentsManager.Domain.Models;
 using StudentsManager.Domain.Bases;
+using Microsoft.Extensions.Caching.Distributed;
+using System;
+using Newtonsoft.Json;
 
 namespace StudentsManager.Controllers
 {
     public class CoursesController : Controller
     {
+        private static object syncObject = Guid.NewGuid();
+        DistributedCacheEntryOptions cacheOptions = new DistributedCacheEntryOptions();
+
         private readonly IAPIClient<Course> _apiClientCourse;
         private readonly int pageSize = 1;
         private readonly SelectList selectCourses;
 
-        public CoursesController(IAPIClient<Course> apiClientCourse)
+        public CoursesController(IAPIClient<Course> apiClientCourse, IDistributedCache cache)
         {
+            cacheOptions.SetAbsoluteExpiration(TimeSpan.FromMinutes(60));
             _apiClientCourse = apiClientCourse;
 
-            selectCourses = new SelectList(_apiClientCourse.GetListFromAPI("api/Course").Result, "Id", "Name"); ;
+            string valorJSON = cache.GetString("courses");
+            if (valorJSON == null)
+            {
+                // Pattern Double-checked locking
+                // https://en.wikipedia.org/wiki/Double-checked_locking
+                lock (syncObject)
+                {
+                    valorJSON = cache.GetString("courses");
+                    if (valorJSON == null)
+                    {
+                        selectCourses = new SelectList(_apiClientCourse.GetListFromAPI("api/course").GetAwaiter().GetResult(), "Id", "Name");
+                        valorJSON = JsonConvert.SerializeObject(selectCourses);
+                        cache.SetString("courses", valorJSON, cacheOptions);
+                    }
+                }
+            }
+            if (selectCourses == null && valorJSON != null)
+            {
+                selectCourses = JsonConvert
+                    .DeserializeObject<SelectList>(valorJSON);
+            }
         }
 
         // GET: Courses
@@ -100,7 +127,7 @@ namespace StudentsManager.Controllers
             {
                 return NotFound();
             }
-            
+
             Course course = await _apiClientCourse.GetEntityFromAPI($"api/course/{id}");
 
             if (course == null)
