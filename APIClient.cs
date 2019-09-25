@@ -20,45 +20,40 @@ namespace StudentsManager.UI
         {
             _client = client;
             _apiAddress = config.Value.StudentServiceApiEndpoint;
+            _client.BaseAddress = new Uri(_apiAddress);
         }
 
         public async Task<PaginatedList<T>> GetPaginatedListFromAPI(string uri)
         {
-            uri = $"{_apiAddress}{uri}";
             PaginatedList<T> List = null;
             string response = null;
 
-            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get,
-                new Uri(uri))
+            try
             {
-                Version = HttpVersion.Version10
-            };
+                var messge = await _client.GetAsync(uri);
 
-            var messge = await _client.SendAsync(httpRequestMessage);
 
-            if (messge.IsSuccessStatusCode)
-            {
-                response = messge.Content.ReadAsStringAsync().Result;
+                if (messge.IsSuccessStatusCode)
+                {
+                    response = messge.Content.ReadAsStringAsync().Result;
 
-                List = JsonConvert.DeserializeObject<PaginatedList<T>>(response);
+                    List = JsonConvert.DeserializeObject<PaginatedList<T>>(response);
+                }
             }
+            catch (Exception e)
+            {
 
+                throw e;
+            }
             return List;
         }
 
         public async Task<IEnumerable<T>> GetListFromAPI(string uri)
         {
-            uri = $"{_apiAddress}{uri}";
             IEnumerable<T> List = null;
             string response = null;
 
-            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get,
-                new Uri(uri))
-            {
-                Version = HttpVersion.Version10
-            };
-
-            var messge = await _client.SendAsync(httpRequestMessage);
+            var messge = await _client.GetAsync(uri);
 
             if (messge.IsSuccessStatusCode)
             {
@@ -99,7 +94,7 @@ namespace StudentsManager.UI
             uri = $"{_apiAddress}{uri}";
 
             StringContent content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
-             
+
             HttpResponseMessage messge = await _client.PostAsync(uri, content);
 
             //messge.EnsureSuccessStatusCode();
@@ -110,7 +105,7 @@ namespace StudentsManager.UI
             uri = $"{_apiAddress}{uri}";
 
             StringContent content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
-             
+
             HttpResponseMessage messge = await _client.PutAsync(uri, content);
 
             // messge.EnsureSuccessStatusCode();   

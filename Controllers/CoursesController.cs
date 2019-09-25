@@ -16,36 +16,47 @@ namespace StudentsManager.Controllers
         private static object syncObject = Guid.NewGuid();
         DistributedCacheEntryOptions cacheOptions = new DistributedCacheEntryOptions();
 
-        private readonly IAPIClient<Course> _apiClientCourse;
+        private readonly IAPIClient<Course> apiClientCourse;
+        private readonly IDistributedCache distributeCache;
+        private string serializedCoursesCache;
         private readonly int pageSize = 1;
-        private readonly SelectList selectCourses;
+        private PaginatedList<Course> cachedCourses;
 
-        public CoursesController(IAPIClient<Course> apiClientCourse, IDistributedCache cache)
+        public CoursesController(IAPIClient<Course> api, IDistributedCache cache)
         {
             cacheOptions.SetAbsoluteExpiration(TimeSpan.FromMinutes(60));
-            _apiClientCourse = apiClientCourse;
+            apiClientCourse = api;
+            distributeCache = cache;
+        }
 
-            string valorJSON = cache.GetString("courses");
-            if (valorJSON == null)
+        public async Task<PaginatedList<Course>> GetCourses(int? page)
+        {
+            PaginatedList<Course> courses = null;
+            serializedCoursesCache = distributeCache.GetString("courses");
+            if (serializedCoursesCache == null)
             {
+                courses = await apiClientCourse.GetPaginatedListFromAPI($"api/Course");///Paged?pageSize={pageSize}&page={page}");
+
                 // Pattern Double-checked locking
                 // https://en.wikipedia.org/wiki/Double-checked_locking
                 lock (syncObject)
                 {
-                    valorJSON = cache.GetString("courses");
-                    if (valorJSON == null)
+                    serializedCoursesCache = distributeCache.GetString("courses");
+                    if (serializedCoursesCache == null)
                     {
-                        selectCourses = new SelectList(_apiClientCourse.GetListFromAPI("api/course").GetAwaiter().GetResult(), "Id", "Name");
-                        valorJSON = JsonConvert.SerializeObject(selectCourses);
-                        cache.SetString("courses", valorJSON, cacheOptions);
+                        serializedCoursesCache = JsonConvert.SerializeObject(courses);
+                        distributeCache.SetString("courses", serializedCoursesCache, cacheOptions);
                     }
                 }
+
             }
-            if (selectCourses == null && valorJSON != null)
+            if (serializedCoursesCache == null && cachedCourses != null)
             {
-                selectCourses = JsonConvert
-                    .DeserializeObject<SelectList>(valorJSON);
+                courses = JsonConvert
+                    .DeserializeObject<PaginatedList<Course>>(serializedCoursesCache);
             }
+
+            return courses;
         }
 
         // GET: Courses
@@ -53,7 +64,7 @@ namespace StudentsManager.Controllers
         {
             ViewBag.ShowSearch = true;
 
-            PaginatedList<Course> courses = await _apiClientCourse.GetPaginatedListFromAPI($"api/Course/Paged?pageSize={pageSize}&page={page}");
+            PaginatedList<Course> courses = await GetCourses(page);
 
             if (courses != null)
             {
@@ -69,7 +80,7 @@ namespace StudentsManager.Controllers
         {
             ViewBag.ShowSearch = true;
 
-            PaginatedList<Course> courses = await _apiClientCourse.GetPaginatedListFromAPI($"api/course/name/{name}?pageSize={pageSize}&page={page}");
+            PaginatedList<Course> courses = await apiClientCourse.GetPaginatedListFromAPI($"api/course/name/{name}?pageSize={pageSize}&page={page}");
 
             if (courses != null)
             {
@@ -89,7 +100,7 @@ namespace StudentsManager.Controllers
                 return NotFound();
             }
 
-            Course course = await _apiClientCourse.GetEntityFromAPI($"api/course/{id}");
+            Course course = await apiClientCourse.GetEntityFromAPI($"api/course/{id}");
 
             if (course == null)
             {
@@ -114,7 +125,7 @@ namespace StudentsManager.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _apiClientCourse.PostEntityToAPI("api/course/", course);
+                await apiClientCourse.PostEntityToAPI("api/course/", course);
                 return RedirectToAction(nameof(Index));
             }
             return View(course);
@@ -128,7 +139,7 @@ namespace StudentsManager.Controllers
                 return NotFound();
             }
 
-            Course course = await _apiClientCourse.GetEntityFromAPI($"api/course/{id}");
+            Course course = await apiClientCourse.GetEntityFromAPI($"api/course/{id}");
 
             if (course == null)
             {
@@ -153,7 +164,7 @@ namespace StudentsManager.Controllers
             {
                 try
                 {
-                    await _apiClientCourse.PutEntityToAPI($"api/Course/{course.Id}", course);
+                    await apiClientCourse.PutEntityToAPI($"api/Course/{course.Id}", course);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -202,7 +213,7 @@ namespace StudentsManager.Controllers
 
         private async Task<bool> CourseExists(int id)
         {
-            return await _apiClientCourse.GetEntityFromAPI($"api/Course/{id}") != null;
+            return await apiClientCourse.GetEntityFromAPI($"api/Course/{id}") != null;
         }
     }
 }

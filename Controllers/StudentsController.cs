@@ -28,7 +28,7 @@ namespace StudentsManager.UI.Controllers
             _apiClientCourse = apiClientCourse;
             _apiClientAddress = apiAddressCourse;
 
-            selectCourses = new SelectList(_apiClientCourse.GetListFromAPI("api/Course").Result, "Id", "Name"); ;
+            selectCourses = new SelectList(_apiClientCourse.GetListFromAPI("api/Course").GetAwaiter().GetResult(), "Id", "Name"); ;
         }
 
         // GET: Students

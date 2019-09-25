@@ -6,3 +6,17 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
       - "80"
+    networks:
+      - students-network
+    depends_on:
+      - "redis.students"
+  redis.students:
+    image: redis:alpine
+    ports:
+      - "16379:6379"
+    networks:
+      - students-network
+
+networks: 
+    students-network:
+      external: true
