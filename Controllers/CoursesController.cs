@@ -19,8 +19,7 @@ namespace StudentsManager.Controllers
         private readonly IAPIClient<Course> apiClientCourse;
         private readonly IDistributedCache distributeCache;
         private string serializedCoursesCache;
-        private readonly int pageSize = 1;
-        private PaginatedList<Course> cachedCourses;
+        private readonly int pageSize = 1; 
 
         public CoursesController(IAPIClient<Course> api, IDistributedCache cache)
         {
@@ -32,10 +31,10 @@ namespace StudentsManager.Controllers
         public async Task<PaginatedList<Course>> GetCourses(int? page)
         {
             PaginatedList<Course> courses = null;
-            serializedCoursesCache = distributeCache.GetString("courses");
+            serializedCoursesCache = distributeCache.GetString($"courses{page}");
             if (serializedCoursesCache == null)
             {
-                courses = await apiClientCourse.GetPaginatedListFromAPI($"api/Course");///Paged?pageSize={pageSize}&page={page}");
+                courses = await apiClientCourse.GetPaginatedListFromAPI($"api/Course/Paged?pageSize={pageSize}&page={page}");
 
                 // Pattern Double-checked locking
                 // https://en.wikipedia.org/wiki/Double-checked_locking
@@ -50,7 +49,7 @@ namespace StudentsManager.Controllers
                 }
 
             }
-            if (serializedCoursesCache == null && cachedCourses != null)
+            else
             {
                 courses = JsonConvert
                     .DeserializeObject<PaginatedList<Course>>(serializedCoursesCache);
