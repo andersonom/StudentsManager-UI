@@ -1,8 +1,9 @@
-FROM mcr.microsoft.com/dotnet/core/aspnet:2.2-stretch-slim AS base
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.1-stretch-slim AS base
 WORKDIR /app
-EXPOSE 80
+ENV ASPNETCORE_URLS=http://+:8088
+EXPOSE 8088
 
-FROM mcr.microsoft.com/dotnet/core/sdk:2.2-stretch AS build
+FROM mcr.microsoft.com/dotnet/core/sdk:2.1-stretch AS build
 WORKDIR /src
 COPY ["StudentsManager.UI.csproj", "./"]
 RUN dotnet restore "StudentsManager.UI.csproj"

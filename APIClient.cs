@@ -14,46 +14,51 @@ namespace StudentsManager.UI
     public class APIClient<T> : IAPIClient<T> where T : class
     {
         private readonly HttpClient _client;
-        private readonly String _apiAddress;
+        private readonly string _apiAddress;
 
         public APIClient(HttpClient client, IOptions<AppSettings> config)
         {
             _client = client;
             _apiAddress = config.Value.StudentServiceApiEndpoint;
-            _client.BaseAddress = new Uri(_apiAddress);
         }
 
         public async Task<PaginatedList<T>> GetPaginatedListFromAPI(string uri)
         {
+            uri = $"{_apiAddress}{uri}";
             PaginatedList<T> List = null;
             string response = null;
 
-            try
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get,
+                new Uri(uri))
             {
-                var messge = await _client.GetAsync(uri);
+                Version = HttpVersion.Version10
+            };
 
+            var messge = await _client.SendAsync(httpRequestMessage);
 
-                if (messge.IsSuccessStatusCode)
-                {
-                    response = messge.Content.ReadAsStringAsync().Result;
-
-                    List = JsonConvert.DeserializeObject<PaginatedList<T>>(response);
-                }
-            }
-            catch (Exception e)
+            if (messge.IsSuccessStatusCode)
             {
+                response = messge.Content.ReadAsStringAsync().Result;
 
-                throw e;
+                List = JsonConvert.DeserializeObject<PaginatedList<T>>(response);
             }
+
             return List;
         }
 
         public async Task<IEnumerable<T>> GetListFromAPI(string uri)
         {
+            uri = $"{_apiAddress}{uri}";
             IEnumerable<T> List = null;
             string response = null;
 
-            var messge = await _client.GetAsync(uri);
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get,
+                new Uri(uri))
+            {
+                Version = HttpVersion.Version10
+            };
+
+            var messge = await _client.SendAsync(httpRequestMessage);
 
             if (messge.IsSuccessStatusCode)
             {
